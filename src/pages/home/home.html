@@ -7,8 +7,20 @@
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <button ion-button full (click)="startvibration()">vibration</button>
+ <button ion-button full (click)="startringtone()">ringer</button>
+ <button ion-button full (click)="startflash()">flashlight ON</button>
+ <button ion-button full (click)="stopflash()">flashlight OFF</button>
+ <button ion-button full (click)="cameraon()">camera</button>
+<div>
+ <ion-input style="background-color: gray"  placeholder="text to encode" type="text" [(ngModel)]="encodText"></ion-input>
+<button ion-button full (click)="encode()"> Encode</button>
+</div>
+<div>
+<button ion-button full (click)="scan()"> scan</button>
+<div *ngIf="scannedData.text">
+<label>Your barcode is</label>
+<br>
+<span>{{scannedData.text}}</span></div>
+</div>
 </ion-content>
