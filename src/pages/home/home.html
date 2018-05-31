@@ -9,9 +9,10 @@
 <ion-content padding>
   <button ion-button full (click)="startvibration()">vibration</button>
  <button ion-button full (click)="startringtone()">ringer</button>
- <button ion-button full (click)="startflash()">flashlight ON</button>
- <button ion-button full (click)="stopflash()">flashlight OFF</button>
+  <button *ngIf="backlightStatus===false" ion-button full (click)="on()">flashlight ON</button>
+ <button *ngIf="backlightStatus===true" ion-button full (click)="off()">flashlight OFF</button>
  <button ion-button full (click)="cameraon()">camera</button>
+ <button ion-button block (click)="choose()">uploadfile</button>
 <div>
  <ion-input style="background-color: gray"  placeholder="text to encode" type="text" [(ngModel)]="encodText"></ion-input>
 <button ion-button full (click)="encode()"> Encode</button>
