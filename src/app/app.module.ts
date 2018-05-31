@@ -7,8 +7,21 @@ import { Vibration } from '@ionic-native/vibration';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { Camera } from '@ionic-native/camera';
-import { Flashlight } from '@ionic-native/flashlight';
+import { Backlight } from '@ionic-native/backlight';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { FileChooser } from '@ionic-native/file-chooser';
+import { File } from '@ionic-native/file';
+import firebase from 'firebase';
+import { DataProvider } from '../providers/data/data';
+let config={
+  apiKey: "AIzaSyBI_MvVhO5o3Z_vgBeyDxarTb9bS1KJ4jc",
+  authDomain: "sample-f1534.firebaseapp.com",
+  databaseURL: "https://sample-f1534.firebaseio.com",
+  projectId: "sample-f1534",
+  storageBucket: "",
+  messagingSenderId: "966190612602"
+};
+firebase.initializeApp(config);
 @NgModule({
   declarations: [
     MyApp,
@@ -26,7 +39,10 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
   providers: [
     StatusBar,
     SplashScreen,
-    Flashlight,
+    Backlight,
+    FileChooser,
+    File,
+    DataProvider,
     Vibration,
     BarcodeScanner,
     Camera,
