@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Vibration } from '@ionic-native/vibration';
-
-import { Flashlight } from '@ionic-native/flashlight';
+import { Backlight } from '@ionic-native/backlight';
 import { BarcodeScanner,BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Platform } from 'ionic-angular';
-
+import { File } from '@ionic-native/file';
+import { FileChooser } from '@ionic-native/file-chooser';
+import firebase from 'firebase';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -17,8 +18,9 @@ encodText:string="";
 encodedData:any={};
 scannedData:any={};
 
-  constructor(public navCtrl: NavController,private vibration: Vibration,private flashlight: Flashlight
-    ,private camera: Camera,private scanner: BarcodeScanner) {
+  constructor(public navCtrl: NavController,private vibration: Vibration,private backlight: Backlight
+    ,private camera: Camera,private scanner: BarcodeScanner,private fileChooser: FileChooser,private file: File,
+  private platform : Platform) {
 
   }
      
@@ -26,15 +28,16 @@ scannedData:any={};
       
     this.vibration.vibrate([2000,1000,2000]);
   }
-  
-  startflash(){
-    
-    this.flashlight.switchOn();
-    console.log(this);
-   
+ on(){
+    this.backlight.on().then(() =>{
+      this.backlightStatus =true;
+     })
   }
-  stopflash(){
-    this.flashlight.switchOff();
+  off(){
+    this.backlight.off().then(() =>{
+      this.backlightStatus =false;
+     })
+  }
   }
   cameraon(){
     const options: CameraOptions = {
@@ -69,6 +72,34 @@ scannedData:any={};
     console.log("Error :", err);
     })
     }
+choose(){
+    this.fileChooser.open().then((uri)=>{
+       alert(uri);
+       this.file.resolveLocalFilesystemUrl(uri).then((newUrl)=>{
+       alert(JSON.stringify(newUrl));
+      
+      let dirPath = newUrl.nativeURL;
+      let dirPathSegments = dirPath.split('/')
+      dirPathSegments.pop()
+      dirPath = dirPathSegments.join('/')
+      
+      this.file.readAsArrayBuffer(dirPath, newUrl.name).then(async(buffer)=>{
+      await this.upload(buffer,newUrl.name); //buffer is content of file in fbase
+      })
+      })
+      })
+      }
+      async upload(buffer,name){
+      let blob = new Blob([buffer], {type:"image/jpeg"});
+      
+      let storage= firebase.storage();
+      
+      storage.ref('image/' + name).put(blob).then((d)=>{
+      alert("done");
+      }).catch((error)=>{
+      alert(JSON.stringify(error))
+      })
+      } 
     }
     
    
