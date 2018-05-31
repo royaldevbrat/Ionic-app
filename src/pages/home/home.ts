@@ -17,6 +17,7 @@ export class HomePage {
 encodText:string="";
 encodedData:any={};
 scannedData:any={};
+backlightStatus:boolean=false;
 
   constructor(public navCtrl: NavController,private vibration: Vibration,private backlight: Backlight
     ,private camera: Camera,private scanner: BarcodeScanner,private fileChooser: FileChooser,private file: File,
