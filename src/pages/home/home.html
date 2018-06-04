@@ -8,7 +8,6 @@
 
 <ion-content padding>
   <button ion-button full (click)="startvibration()">vibration</button>
-  
  <button *ngIf="backlightStatus===false" ion-button full (click)="on()">flashlight ON</button>
  <button *ngIf="backlightStatus===true" ion-button full (click)="off()">flashlight OFF</button>
  <button ion-button full (click)="cameraon()">camera</button>
@@ -29,7 +28,6 @@
   <ion-label floating>Phone Number</ion-label>
   <ion-input type="tel"  [(ngModel)]="phoneNumber"></ion-input>
  </ion-item>
- 
  <ion-fab bottom right>
   <button ion-fab (click)="callNumber()">
    <ion-icon name="call"></ion-icon>

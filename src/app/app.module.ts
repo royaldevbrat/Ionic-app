@@ -17,7 +17,6 @@ import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
 import { CallNumber } from '@ionic-native/call-number';
 import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts';
 import { BatteryStatus } from '@ionic-native/battery-status';
-
 let config={
   apiKey: "AIzaSyBI_MvVhO5o3Z_vgBeyDxarTb9bS1KJ4jc",
   authDomain: "sample-f1534.firebaseapp.com",
@@ -55,6 +54,9 @@ firebase.initializeApp(config);
     Camera,
     BatteryStatus,
     FingerprintAIO,
+    FileChooser,
+    File,
+    DataProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataProvider
   ]
