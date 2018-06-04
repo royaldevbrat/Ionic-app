@@ -13,6 +13,10 @@ import { FileChooser } from '@ionic-native/file-chooser';
 import { File } from '@ionic-native/file';
 import firebase from 'firebase';
 import { DataProvider } from '../providers/data/data';
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
+import { CallNumber } from '@ionic-native/call-number';
+import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts';
+import { BatteryStatus } from '@ionic-native/battery-status';
 let config={
   apiKey: "AIzaSyBI_MvVhO5o3Z_vgBeyDxarTb9bS1KJ4jc",
   authDomain: "sample-f1534.firebaseapp.com",
@@ -29,6 +33,7 @@ firebase.initializeApp(config);
   ],
   imports: [
     BrowserModule,
+   
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -40,13 +45,20 @@ firebase.initializeApp(config);
     StatusBar,
     SplashScreen,
     Backlight,
+    Vibration,
+    CallNumber,
+    BarcodeScanner,
+    Contacts,
+    File,
+    FileChooser,
+    Camera,
+    BatteryStatus,
+    FingerprintAIO,
     FileChooser,
     File,
     DataProvider,
-    Vibration,
-    BarcodeScanner,
-    Camera,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    DataProvider
   ]
 })
 export class AppModule {}
