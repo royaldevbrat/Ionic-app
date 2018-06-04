@@ -27,7 +27,6 @@ let config={
   messagingSenderId: "966190612602"
 };
 firebase.initializeApp(config);
-
 @NgModule({
   declarations: [
     MyApp,
