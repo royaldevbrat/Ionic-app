@@ -145,18 +145,14 @@ contactFound =[];
        console.error(e);
      }
      }
-     search(val) {
+     search(q) {
        this.contacts.find(this.wheretosearch,{filter:this.q}).then((contacts) =>{
          this.contactFound = contacts;
        }).catch((err) =>{
           alert(JSON.stringify(err));
        })
        }
-       ringerstatus(){
-        cordova.plugins.ringerMode.getRingerMode(function(ringerMode) {
-          console.log("The current ringerMode is:" + ringerMode);
-    });
-       }
+      
        getStatus(){
         this.batteryStatus.onChange().subscribe(status=> {
           this.stat = status;
