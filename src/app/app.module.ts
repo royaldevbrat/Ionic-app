@@ -22,7 +22,7 @@ let config={
   authDomain: "sample-f1534.firebaseapp.com",
   databaseURL: "https://sample-f1534.firebaseio.com",
   projectId: "sample-f1534",
-  storageBucket: "",
+  storageBucket: "sample-f1534.appspot.com",
   messagingSenderId: "966190612602"
 };
 firebase.initializeApp(config);
