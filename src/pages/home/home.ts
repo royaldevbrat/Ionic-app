@@ -13,8 +13,6 @@ import { CallNumber } from '@ionic-native/call-number';
 import { Contacts, Contact, ContactField, ContactName, ContactFieldType } from '@ionic-native/contacts';
 import { BatteryStatus } from '@ionic-native/battery-status';
 declare var cordova;
-import { FileChooser } from '@ionic-native/file-chooser';
-import firebase from 'firebase';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -99,8 +97,6 @@ contactFound =[];
 //}
 
       this.fileChooser.open().then((uri)=>{
-choose(){
-    this.fileChooser.open().then((uri)=>{
        alert(uri);
        this.file.resolveLocalFilesystemUrl(uri).then((newUrl)=>{
        alert(JSON.stringify(newUrl));
@@ -127,7 +123,7 @@ choose(){
       alert(JSON.stringify(error))
       })
       } 
-    }
+    
        fingerprintdialoge(){
       this.faio.show({
         clientId: 'Fingerprint-demo',
