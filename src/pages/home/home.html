@@ -8,8 +8,8 @@
 
 <ion-content padding>
   <button ion-button full (click)="startvibration()">vibration</button>
- <button *ngIf="backlightStatus===false" ion-button full (click)="on()">flashlight ON</button>
- <button *ngIf="backlightStatus===true" ion-button full (click)="off()">flashlight OFF</button>
+ <button *ngIf="backlightStatus===false" ion-button block (click)="on()">flashlight ON</button>
+ <button *ngIf="backlightStatus===true" ion-button block (click)="off()">flashlight OFF</button>
  <button ion-button full (click)="cameraon()">camera</button>
  <button ion-button block (click)="choose()">uploadfile</button>
  <button ion-button block (click)="fingerprintdialoge()">fingerprint</button>
