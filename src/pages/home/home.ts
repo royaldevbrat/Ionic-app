@@ -31,7 +31,7 @@ phoneNumber: number;
 wheretosearch: ContactFieldType[] = ["displayName"];
 q='';
 contactFound =[];
-  constructor(public navCtrl: NavController,private vibration: Vibration,private backlight: Backlight
+  constructor(public navCtrl: NavController,private vibration: Vibration,public backlight: Backlight
     ,private camera: Camera,private scanner: BarcodeScanner,private fileChooser: FileChooser,private file: File,
   private platform : Platform,private faio: FingerprintAIO,private call: CallNumber,
   private contacts: Contacts,private batteryStatus: BatteryStatus) {
