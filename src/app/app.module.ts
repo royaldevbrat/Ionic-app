@@ -7,7 +7,6 @@ import { Vibration } from '@ionic-native/vibration';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { Camera } from '@ionic-native/camera';
-import { Backlight } from '@ionic-native/backlight';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { File } from '@ionic-native/file';
@@ -15,6 +14,7 @@ import firebase from 'firebase';
 import { DataProvider } from '../providers/data/data';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
 import { CallNumber } from '@ionic-native/call-number';
+import { Flashlight } from '@ionic-native/flashlight';
 import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts';
 import { BatteryStatus } from '@ionic-native/battery-status';
 
@@ -23,7 +23,7 @@ let config={
   authDomain: "sample-f1534.firebaseapp.com",
   databaseURL: "https://sample-f1534.firebaseio.com",
   projectId: "sample-f1534",
-  storageBucket: "",
+  storageBucket: "sample-f1534.appspot.com",
   messagingSenderId: "966190612602"
 };
 firebase.initializeApp(config);
@@ -45,13 +45,13 @@ firebase.initializeApp(config);
   providers: [
     StatusBar,
     SplashScreen,
-    Backlight,
     Vibration,
     CallNumber,
     BarcodeScanner,
     Contacts,
     File,
     FileChooser,
+    Flashlight,
     Camera,
     BatteryStatus,
     FingerprintAIO,

@@ -8,10 +8,11 @@
 
 <ion-content padding>
   <button ion-button full (click)="startvibration()">vibration</button>
-  
- <button *ngIf="backlightStatus===false" ion-button full (click)="on()">flashlight ON</button>
- <button *ngIf="backlightStatus===true" ion-button full (click)="off()">flashlight OFF</button>
- <button ion-button full (click)="cameraon()">camera</button>
+  <ion-fab bottom center>
+    <button ion-fab color="{{isOn ? 'secondary':'light'}}" (click)="toggleFlash()">
+    </button>
+    </ion-fab>
+ <button ion-button full (click)="takephoto()">Take Photo</button>
  <button ion-button block (click)="choose()">uploadfile</button>
  <button ion-button block (click)="fingerprintdialoge()">fingerprint</button>
   <div>
@@ -35,18 +36,17 @@
    <ion-icon name="call"></ion-icon>
    </button>
    </ion-fab>
+   <button ion-button full (click)="getContacts()">getContacts</button>
    <ion-list>
-   <button ion-button block (click)="contacts()">contacts</button>
-   <ion-item *ngFor="let contact of contactsFound">
-     <ion-avatar item-start>
-       <ion-icon name="person"></ion-icon>
-     </ion-avatar>
-     <h2>{{contact.displayName}}</h2>
-     <p *ngFor="let num of contact.phoneNumbers">
-       {{num.value}}
-     </p>
+     <ion-item *ngFor="let contact of contactList">
+       <ion-avatar *ngIf="contact.image" item-start>
+         <img [src]="contact.image">
+       </ion-avatar>
+       {{contact.name}}
+       <p>{{contact.number}}</p>
      </ion-item>
-     </ion-list>
+   </ion-list>
+ 
      <h3>Batterylevel</h3>
  <p>{{stat?.level}}</p>
 </ion-content>
