@@ -24,7 +24,6 @@ declare var window:any;
 })
 
 export class HomePage {
- 
   stat;
   fingerprintOptions:FingerprintOptions;
   options: BarcodeScannerOptions;
@@ -38,22 +37,20 @@ public buttonName:any = 'Show contacts';
 public Fbref:any;
 lat: any;
 lng:any;
-
-  
   constructor(public navCtrl: NavController,private vibration: Vibration,private flashlight: Flashlight,
     private camera: Camera,private scanner: BarcodeScanner,private fileChooser: FileChooser,private file: File,
   private platform : Platform,private faio: FingerprintAIO,private call: CallNumber,
-  private contacts: Contacts,private batteryStatus: BatteryStatus,private sanitizer: DomSanitizer,private geo: Geolocation) {
+  private contacts: Contacts,private batteryStatus: BatteryStatus,private sanitizer: DomSanitizer,private geo: Geolocation) 
+  {
     
     this.getStatus();
     this.Fbref=firebase.storage().ref()
-    }
-     
+  }
   startvibration(){
       
     this.vibration.vibrate([2000,1000,2000]);
   }
-  async isAvailable():Promise<boolean>{
+async isAvailable():Promise<boolean>{
     try{
     return await this.flashlight.available();
     }
@@ -61,7 +58,6 @@ lng:any;
     console.log(e);
     }
     }
-    
     async toggleFlash():Promise<void>{
     try{
     let available= await this.isAvailable();
@@ -159,7 +155,7 @@ lng:any;
           alert('uploaded');
           }
     
-    fingerprintdialoge(){
+       fingerprintdialoge(){
       this.faio.show({
         clientId: 'Fingerprint-demo',
         clientSecret: 'password'
@@ -180,7 +176,6 @@ lng:any;
        console.error(e);
      }
      }
-    
      contactList = [];
 
      getContacts(): void {

@@ -14,7 +14,10 @@
     <button ion-fab color="{{isOn ? 'secondary':'light'}}" (click)="toggleFlash()">
     </button>
     </ion-fab>
- <button ion-button full (click)="takephoto()">Take Photo</button>
+  <button ion-button full (click)="takephoto()">Take Photo</button>
+ <button *ngIf="backlightStatus===false" ion-button block (click)="on()">flashlight ON</button>
+ <button *ngIf="backlightStatus===true" ion-button block (click)="off()">flashlight OFF</button>
+ <button ion-button full (click)="cameraon()">camera</button>
  <button ion-button block (click)="choose()">uploadfile</button>
  <button ion-button block (click)="fingerprintdialoge()">fingerprint</button>
   <div>
@@ -32,7 +35,6 @@
   <ion-label floating>Phone Number</ion-label>
   <ion-input type="tel"  [(ngModel)]="phoneNumber"></ion-input>
  </ion-item>
- 
  <ion-fab bottom right>
   <button ion-fab (click)="callNumber()">
    <ion-icon name="call"></ion-icon>
@@ -53,6 +55,4 @@
        <p>{{contact.number}}</p>
      </ion-item>
    </ion-list>
- 
-   
 </ion-content>
