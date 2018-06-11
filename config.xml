@@ -95,4 +95,7 @@
     <plugin name="cordova-plugin-flashlight" spec="^3.2.0" />
     <engine name="android" spec="7.1.0" />
     <engine name="browser" spec="5.0.3" />
+    <plugin name="cordova-plugin-geolocation" spec="^4.0.1">
+        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
+    </plugin>
 </widget>

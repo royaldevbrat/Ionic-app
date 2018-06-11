@@ -7,6 +7,8 @@
 </ion-header>
 
 <ion-content padding>
+    <h3>Batterylevel</h3>
+ <p>{{stat?.level}}</p>
   <button ion-button full (click)="startvibration()">vibration</button>
   <ion-fab bottom center>
     <button ion-fab color="{{isOn ? 'secondary':'light'}}" (click)="toggleFlash()">
@@ -36,8 +38,13 @@
    <ion-icon name="call"></ion-icon>
    </button>
    </ion-fab>
-   <button ion-button full (click)="getContacts()">getContacts</button>
-   <ion-list>
+   <ion-item>
+   <p>Lat:{{lat}}</p>
+   <p>Lng:{{lng}}</p>
+   </ion-item>
+   <button ion-button full (click)="getContacts();toggle()">{{buttonName}}</button>
+   <ion-list *ngIf="show">
+    
      <ion-item *ngFor="let contact of contactList">
        <ion-avatar *ngIf="contact.image" item-start>
          <img [src]="contact.image">
@@ -47,6 +54,5 @@
      </ion-item>
    </ion-list>
  
-     <h3>Batterylevel</h3>
- <p>{{stat?.level}}</p>
+   
 </ion-content>

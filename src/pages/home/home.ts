@@ -8,6 +8,7 @@ import { Platform } from 'ionic-angular';
 import { File } from '@ionic-native/file';
 import { Flashlight } from '@ionic-native/flashlight';
 import firebase from 'firebase';
+import { Geolocation } from '@ionic-native/geolocation';
 import{storage,initializeApp} from 'firebase';
 import { FingerprintAIO,FingerprintOptions } from '@ionic-native/fingerprint-aio';
 import { CallNumber } from '@ionic-native/call-number';
@@ -15,6 +16,7 @@ import { Contacts, Contact, ContactField, ContactName, ContactFieldType } from '
 import { BatteryStatus } from '@ionic-native/battery-status';
 import { DomSanitizer } from '@angular/platform-browser';
 declare var cordova;
+declare var window:any;
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -22,6 +24,7 @@ declare var cordova;
 })
 
 export class HomePage {
+ 
   stat;
   fingerprintOptions:FingerprintOptions;
   options: BarcodeScannerOptions;
@@ -30,15 +33,20 @@ encodedData:any={};
 scannedData:any={};
 isOn: boolean=true;
 phoneNumber: number;
-
+public show:boolean = false;
+public buttonName:any = 'Show contacts';
+public Fbref:any;
+lat: any;
+lng:any;
 
   
   constructor(public navCtrl: NavController,private vibration: Vibration,private flashlight: Flashlight,
     private camera: Camera,private scanner: BarcodeScanner,private fileChooser: FileChooser,private file: File,
   private platform : Platform,private faio: FingerprintAIO,private call: CallNumber,
-  private contacts: Contacts,private batteryStatus: BatteryStatus,private sanitizer: DomSanitizer) {
+  private contacts: Contacts,private batteryStatus: BatteryStatus,private sanitizer: DomSanitizer,private geo: Geolocation) {
     
     this.getStatus();
+    this.Fbref=firebase.storage().ref()
     }
      
   startvibration(){
@@ -94,8 +102,8 @@ phoneNumber: number;
       const result = await this.camera.getPicture(options);
       const image = `data:image/jpeg;base64,${result}`;
       
-      const pictures = storage().ref('pictures');
-      pictures.putString(image,'data_url');
+      const pictures = storage().ref('pictures/myphotos');
+      pictures.putString(image, 'data_url');
       
     }
       catch(e){
@@ -124,44 +132,32 @@ phoneNumber: number;
     reset(){
       this.encodText='';
     }
-   /* choose(){
-       // Check If Cordova/Mobile
-//   if (this.platform.is('cordova')) {
-   // window.location.href = "www.youtube.com";
-   //alert("is available")
-//}else{
-   // window.open("www.youtube.com",'_blank');
-  // alert("'is not available")
-//}
-
-      this.fileChooser.open().then((uri)=>{
-       alert(uri);
-       this.file.resolveLocalFilesystemUrl(uri).then((newUrl)=>{
-       alert(JSON.stringify(newUrl));
-      
-      let dirPath = newUrl.nativeURL;
-      let dirPathSegments = dirPath.split('/')
-      dirPathSegments.pop()
-      dirPath = dirPathSegments.join('/')
-      alert('till here it worked')
-      this.file.readAsArrayBuffer(dirPath, newUrl.name).then(async(buffer)=>{
-      await this.upload(buffer,newUrl.name); //buffer is content of file in fbase
-      })
-      })
-      })
+    choose(){
+      const options={
+        sourceType:this.camera.PictureSourceType.SAVEDPHOTOALBUM,
+        mediaType:this.camera.MediaType.ALLMEDIA,
+        destinationType:this.camera.DestinationType.FILE_URI
+       }
+       this.camera.getPicture(options).then(fileuri=>{
+        window.resolveLocalFileSystemURL("file://"+fileuri,FE=>{
+        FE.file(file=>{
+        const FR=new FileReader()
+        FR.onloadend=(res:any)=>{
+        let AF=res.target.result
+        let blob=new Blob([new Uint8Array(AF)],{type:'video/mp4'})
+        this.upload(blob)
+       
+        };
+        FR.readAsArrayBuffer(file);
+        
+        })
+        })
+        })
       }
-      async upload(buffer,name){
-      let blob = new Blob([buffer], {type:"image/jpeg"});
-      
-      let storage= firebase.storage();
-      
-      storage.ref('images/' + name).put(blob).then((d)=>{
-      alert("done");
-      }).catch((error)=>{
-      alert(JSON.stringify(error))
-      })
-      } */
-      
+        upload(blob:Blob){
+          this.Fbref.child('vid').put(blob);
+          alert('uploaded');
+          }
     
     fingerprintdialoge(){
       this.faio.show({
@@ -188,6 +184,7 @@ phoneNumber: number;
      contactList = [];
 
      getContacts(): void {
+    
        this.contacts.find(
          ["displayName", "phoneNumbers","photos"],
          {multiple: true, hasPhoneNumber: true}
@@ -205,15 +202,32 @@ phoneNumber: number;
                  contact["image"] = "assets/dummy-profile-pic.png";
                }
                this.contactList.push(contact);
+              
              }
            }
        });
      }
+     toggle() {
+      this.show = !this.show;
+  
+      // CHANGE THE NAME OF THE BUTTON.
+      if(this.show)  
+        this.buttonName = "Hide Contact";
+      else
+        this.buttonName = "Show Contact";
+    }
        getStatus(){
         this.batteryStatus.onChange().subscribe(status=> {
           this.stat = status;
       });
       }
+      ionViewDidLoad(){
+        this.geo.getCurrentPosition().then( pos => {
+        this.lat = pos.coords.latitude;
+        this.lng = pos.coords.longitude;
+        }).catch(err => alert(err));
+        }
+        
      }
   
 

@@ -17,7 +17,7 @@ import { CallNumber } from '@ionic-native/call-number';
 import { Flashlight } from '@ionic-native/flashlight';
 import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts';
 import { BatteryStatus } from '@ionic-native/battery-status';
-
+import { Geolocation } from '@ionic-native/geolocation';
 let config={
   apiKey: "AIzaSyBI_MvVhO5o3Z_vgBeyDxarTb9bS1KJ4jc",
   authDomain: "sample-f1534.firebaseapp.com",
@@ -54,6 +54,7 @@ firebase.initializeApp(config);
     Flashlight,
     Camera,
     BatteryStatus,
+    Geolocation,
     FingerprintAIO,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataProvider
