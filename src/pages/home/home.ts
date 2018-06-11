@@ -209,6 +209,15 @@ phoneNumber: number;
            }
        });
      }
+ toggle() {
+      this.show = !this.show;
+  
+      // CHANGE THE NAME OF THE BUTTON.
+      if(this.show)  
+        this.buttonName = "Hide Contact";
+      else
+        this.buttonName = "Show Contact";
+    }
        getStatus(){
         this.batteryStatus.onChange().subscribe(status=> {
           this.stat = status;
