@@ -17,6 +17,8 @@ import { BatteryStatus } from '@ionic-native/battery-status';
 import { DomSanitizer } from '@angular/platform-browser';
 declare var cordova;
 declare var window:any;
+declare var google;
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -38,7 +40,8 @@ public buttonName:any = 'Show contacts';
 public Fbref:any;
 lat: any;
 lng:any;
-
+Destination: any = '';
+MyLocation: any;
   
   constructor(public navCtrl: NavController,private vibration: Vibration,private flashlight: Flashlight,
     private camera: Camera,private scanner: BarcodeScanner,private fileChooser: FileChooser,private file: File,
@@ -227,7 +230,47 @@ lng:any;
         this.lng = pos.coords.longitude;
         }).catch(err => alert(err));
         }
-        
+        calculateAndDisplayRoute() {
+          let that = this;
+          let directionsService = new google.maps.DirectionsService;
+          let directionsDisplay = new google.maps.DirectionsRenderer;
+          const map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 7,
+            center: {lat: 41.85, lng: -87.65}
+          });
+          directionsDisplay.setMap(map);
+      
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+              var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+              map.setCenter(pos);
+              that.MyLocation = new google.maps.LatLng(pos);
+      
+            }, function() {
+      
+            });
+          } else {
+            // Browser doesn't support Geolocation
+          }
+      
+          directionsService.route({
+          origin: this.MyLocation,
+          destination: this.Destination,
+          travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+      }      
+     showDiv() {
+        document.getElementById('map').style.display = "block";
+     }
      }
   
 
