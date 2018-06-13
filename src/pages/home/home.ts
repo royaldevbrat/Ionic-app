@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 import { Vibration } from '@ionic-native/vibration';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { BarcodeScanner,BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
@@ -26,7 +26,6 @@ declare var google;
 })
 
 export class HomePage {
- 
   stat;
   fingerprintOptions:FingerprintOptions;
   options: BarcodeScannerOptions;
@@ -42,6 +41,7 @@ lat: any;
 lng:any;
 Destination: any = '';
 MyLocation: any;
+
   
   constructor(public navCtrl: NavController,private vibration: Vibration,private flashlight: Flashlight,
     private camera: Camera,private scanner: BarcodeScanner,private fileChooser: FileChooser,private file: File,
@@ -52,10 +52,36 @@ MyLocation: any;
     this.Fbref=firebase.storage().ref()
     }
      
+   vibrate(e){
+   //  alert(e.target.value);
+     if(e.target.value=="startvibration")
+     {
+       //alert('line 59');
+       this.startvibration();
+       return
+     }
+     else if (e.target.value=="upload")
+     {
+       //alert('line 63');
+      this.choose();
+       return
+     }
+     else if (e.target.value=="takephoto")
+     {
+      // alert('line 68');
+       this.takephoto();
+       return
+     }
+    //  else (e.target.value=="fingerprint")
+    //  {
+    //    this.fingerprintdialoge()
+    //  }
+   }
   startvibration(){
       
     this.vibration.vibrate([2000,1000,2000]);
   }
+
   async isAvailable():Promise<boolean>{
     try{
     return await this.flashlight.available();
@@ -244,7 +270,7 @@ MyLocation: any;
             navigator.geolocation.getCurrentPosition(function(position) {
               var pos = {
                 lat: position.coords.latitude,
-                lng: position.coords.longitude
+                lng: position.coords.longitude,
               };
               map.setCenter(pos);
               that.MyLocation = new google.maps.LatLng(pos);
@@ -267,7 +293,15 @@ MyLocation: any;
             window.alert('Directions request failed due to ' + status);
           }
         });
-      }      
+      }   
+      saveLocation(){
+        firebase.database().ref('map/location').update({
+          lat: this.lat,
+           long: this.lng
+        }).then(res =>{
+          // THE LOCATION IS SAVED, DO YOUR STUFF
+        })
+      }   
      showDiv() {
         document.getElementById('map').style.display = "block";
      }

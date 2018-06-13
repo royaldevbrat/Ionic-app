@@ -6,16 +6,47 @@
   </ion-navbar>
 </ion-header>
 
+
 <ion-content padding>
+    Please select one service:
+    <select (change)="vibrate($event)">
+        <option value="" disabled>select</option>
+      <option value="startvibration">vibration</option>
+      <option value="takephoto">Take Photo</option>
+      <option value="upload">uploadfile</option>
+      <!-- <option value="fingerprint">fingerprint</option> -->
+     
+    </select>
+   
+    <!-- <ion-select (change)="vibrate($event)">
+        <ion-option value="" disabled>select</ion-option>
+        <ion-option value="startvibration">vibration</ion-option>
+        <ion-option value="toggleFlash">Flash</ion-option>
+        <ion-option value="takephoto">Take Photo</ion-option>
+      </ion-select> -->
+
+
     <h3>Batterylevel</h3>
  <p>{{stat?.level}}</p>
-  <button ion-button full (click)="startvibration()">vibration</button>
-  <ion-fab bottom center>
-    <button ion-fab color="{{isOn ? 'secondary':'light'}}" (click)="toggleFlash()">
-    </button>
-    </ion-fab>
- <button ion-button full (click)="takephoto()">Take Photo</button>
- <button ion-button block (click)="choose()">uploadfile</button>
+ <!-- <div ng-switch="myVar">
+  <div ng-switch-when="startvibration"  >
+  </div>
+ 
+    <div ng-switch-when="toggleFlash" (click)="toggleFlash()" >
+    </div>
+
+    
+      <div ng-switch-when="takephoto" (click)="takephoto()" >
+      </div>
+      </div> -->
+
+ <!-- <button ion-button block (click)="choose()">uploadfile</button> -->
+ <ion-fab bottom center>
+  <button ion-fab color="{{isOn ? 'secondary':'light'}}" (click)="toggleFlash()">
+  </button>
+  </ion-fab>
+  <!-- <button *ngIf="backlightStatus===false" ion-button block (click)="on()">flashlight ON</button>
+  <button *ngIf="backlightStatus===true" ion-button block (click)="off()">flashlight OFF</button> -->
  <button ion-button block (click)="fingerprintdialoge()">fingerprint</button>
   <div>
  <ion-input style="background-color: gray"  placeholder="text to encode" type="text" [(ngModel)]="encodText"></ion-input>
@@ -51,6 +82,8 @@
    <p>Lat:{{lat}}</p>
    <p>Lng:{{lng}}</p>
    </ion-item>
+   <button ion-button full (click)="saveLocation()">share location</button>
+   <!-- <div #mapID (press)="saveLocation()">share location</div> -->
    <button ion-button full (click)="getContacts();toggle()">{{buttonName}}</button>
    <ion-list *ngIf="show">
     
