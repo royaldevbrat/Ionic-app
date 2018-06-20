@@ -41,15 +41,16 @@ lat: any;
 lng:any;
 Destination: any = '';
 MyLocation: any;
+public date: string = new Date().toISOString();
 
-  
   constructor(public navCtrl: NavController,private vibration: Vibration,private flashlight: Flashlight,
     private camera: Camera,private scanner: BarcodeScanner,private fileChooser: FileChooser,private file: File,
   private platform : Platform,private faio: FingerprintAIO,private call: CallNumber,
   private contacts: Contacts,private batteryStatus: BatteryStatus,private sanitizer: DomSanitizer,private geo: Geolocation) {
     
     this.getStatus();
-    this.Fbref=firebase.storage().ref()
+    this.Fbref=firebase.storage().ref();
+   
     }
      
    vibrate(e){
@@ -255,6 +256,7 @@ MyLocation: any;
         this.lat = pos.coords.latitude;
         this.lng = pos.coords.longitude;
         }).catch(err => alert(err));
+        
         }
         calculateAndDisplayRoute() {
           let that = this;
@@ -272,11 +274,12 @@ MyLocation: any;
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
               };
+              
               map.setCenter(pos);
               that.MyLocation = new google.maps.LatLng(pos);
       
             }, function() {
-      
+              
             });
           } else {
             // Browser doesn't support Geolocation
@@ -297,16 +300,53 @@ MyLocation: any;
       saveLocation(){
         firebase.database().ref('map/location').update({
           lat: this.lat,
-           long: this.lng
+           lng: this.lng,
+            date:this.date
+          // currDate=new Date().toISOString()
         }).then(res =>{
           // THE LOCATION IS SAVED, DO YOUR STUFF
         })
       }   
+      
      showDiv() {
         document.getElementById('map').style.display = "block";
      }
-     }
+     hideDiv() {
+      document.getElementById('map_canvas').style.display = "block";
+   }
+     initialize() {
+      var infowindow = new google.maps.InfoWindow();
+      var map = new google.maps.Map(
+        document.getElementById("map_canvas"), {
+          center: new google.maps.LatLng(37.4419, -122.1419),
+          zoom: 13,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+        var locationsRef = firebase.database().ref('map/location');
+        var bounds = new google.maps.LatLngBounds();
+        locationsRef.on('child_added', function(snapshot) {
+          var data = snapshot.val();
+          console.log(data);
+          var marker = new google.maps.Marker({
+            position: {
+              lat: parseFloat(data.lat),
+              lng: parseFloat(data.lng)
+            },
+            map: map
+          });
+          bounds.extend(marker.getPosition());
+          marker.addListener('click', (function(data) {
+            return function(e) {
+              infowindow.setContent(data.name + "<br>" + this.getPosition().toUrlValue(6) + "<br>" + data.message);
+              infowindow.open(map, this);
+            }
+          }(data)));
+          map.fitBounds(bounds);
+        });
+      }
+      // google.maps.event.addDomListener(window, "load", initialize); 
+      
+      } 
+      //  google.maps.event.addDomListener(window, "load", initialize); 
   
-
-// run command:
-//  ionic cordova run android   
+ 

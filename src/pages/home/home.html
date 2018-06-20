@@ -68,6 +68,8 @@
 </ion-list>
 <button ion-button full (click)="calculateAndDisplayRoute();showDiv() ">Get Direction</button>
 <div id="map"  style="display:none;"></div>
+<button ion-button full (click)="initialize();hideDiv() ">Plot location</button>
+<div id="map_canvas"  style="display:none;"></div>
 <ion-item>
   <ion-label floating>Phone Number</ion-label>
   <ion-input type="tel"  [(ngModel)]="phoneNumber"></ion-input>
@@ -82,8 +84,9 @@
    <p>Lat:{{lat}}</p>
    <p>Lng:{{lng}}</p>
    </ion-item>
+  
    <button ion-button full (click)="saveLocation()">share location</button>
-   <!-- <div #mapID (press)="saveLocation()">share location</div> -->
+  
    <button ion-button full (click)="getContacts();toggle()">{{buttonName}}</button>
    <ion-list *ngIf="show">
     
