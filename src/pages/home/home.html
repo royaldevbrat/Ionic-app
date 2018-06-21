@@ -5,8 +5,6 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
-
-
 <ion-content padding>
     Please select one service:
     <select (change)="vibrate($event)">
@@ -15,38 +13,15 @@
       <option value="takephoto">Take Photo</option>
       <option value="upload">uploadfile</option>
       <!-- <option value="fingerprint">fingerprint</option> -->
-     
-    </select>
-   
-    <!-- <ion-select (change)="vibrate($event)">
-        <ion-option value="" disabled>select</ion-option>
-        <ion-option value="startvibration">vibration</ion-option>
-        <ion-option value="toggleFlash">Flash</ion-option>
-        <ion-option value="takephoto">Take Photo</ion-option>
-      </ion-select> -->
-
-
-    <h3>Batterylevel</h3>
+        </select>
+ <h3>Batterylevel</h3>
  <p>{{stat?.level}}</p>
- <!-- <div ng-switch="myVar">
-  <div ng-switch-when="startvibration"  >
-  </div>
  
-    <div ng-switch-when="toggleFlash" (click)="toggleFlash()" >
-    </div>
-
-    
-      <div ng-switch-when="takephoto" (click)="takephoto()" >
-      </div>
-      </div> -->
-
- <!-- <button ion-button block (click)="choose()">uploadfile</button> -->
  <ion-fab bottom center>
   <button ion-fab color="{{isOn ? 'secondary':'light'}}" (click)="toggleFlash()">
   </button>
   </ion-fab>
-  <!-- <button *ngIf="backlightStatus===false" ion-button block (click)="on()">flashlight ON</button>
-  <button *ngIf="backlightStatus===true" ion-button block (click)="off()">flashlight OFF</button> -->
+
  <button ion-button block (click)="fingerprintdialoge()">fingerprint</button>
   <div>
  <ion-input style="background-color: gray"  placeholder="text to encode" type="text" [(ngModel)]="encodText"></ion-input>
@@ -74,7 +49,6 @@
   <ion-label floating>Phone Number</ion-label>
   <ion-input type="tel"  [(ngModel)]="phoneNumber"></ion-input>
  </ion-item>
- 
  <ion-fab bottom right>
   <button ion-fab (click)="callNumber()">
    <ion-icon name="call"></ion-icon>

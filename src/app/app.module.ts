@@ -56,6 +56,9 @@ firebase.initializeApp(config);
     BatteryStatus,
     Geolocation,
     FingerprintAIO,
+    FileChooser,
+    File,
+    DataProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataProvider
   ]

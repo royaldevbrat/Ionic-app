@@ -45,14 +45,13 @@ public date: string = new Date().toISOString();
 
   constructor(public navCtrl: NavController,private vibration: Vibration,private flashlight: Flashlight,
     private camera: Camera,private scanner: BarcodeScanner,private fileChooser: FileChooser,private file: File,
-  private platform : Platform,private faio: FingerprintAIO,private call: CallNumber,
-  private contacts: Contacts,private batteryStatus: BatteryStatus,private sanitizer: DomSanitizer,private geo: Geolocation) {
+    private platform : Platform,private faio: FingerprintAIO,private call: CallNumber,
+    private contacts: Contacts,private batteryStatus: BatteryStatus,private sanitizer: DomSanitizer,private geo: Geolocation) {
     
     this.getStatus();
     this.Fbref=firebase.storage().ref();
-   
     }
-     
+
    vibrate(e){
    //  alert(e.target.value);
      if(e.target.value=="startvibration")
@@ -73,23 +72,20 @@ public date: string = new Date().toISOString();
        this.takephoto();
        return
      }
-    //  else (e.target.value=="fingerprint")
-    //  {
-    //    this.fingerprintdialoge()
-    //  }
+  
    }
   startvibration(){
       
     this.vibration.vibrate([2000,1000,2000]);
   }
-
-  async isAvailable():Promise<boolean>{
+ async isAvailable():Promise<boolean>{
     try{
     return await this.flashlight.available();
     }
     catch(e){
     console.log(e);
     }
+
     }
     
     async toggleFlash():Promise<void>{
@@ -131,7 +127,6 @@ public date: string = new Date().toISOString();
       }
       const result = await this.camera.getPicture(options);
       const image = `data:image/jpeg;base64,${result}`;
-      
       const pictures = storage().ref('pictures/myphotos');
       pictures.putString(image, 'data_url');
       
@@ -183,13 +178,11 @@ public date: string = new Date().toISOString();
         })
         })
         })
-      }
         upload(blob:Blob){
           this.Fbref.child('vid').put(blob);
           alert('uploaded');
           }
-    
-    fingerprintdialoge(){
+       fingerprintdialoge(){
       this.faio.show({
         clientId: 'Fingerprint-demo',
         clientSecret: 'password'
@@ -210,7 +203,6 @@ public date: string = new Date().toISOString();
        console.error(e);
      }
      }
-    
      contactList = [];
 
      getContacts(): void {
@@ -246,6 +238,7 @@ public date: string = new Date().toISOString();
       else
         this.buttonName = "Show Contact";
     }
+
        getStatus(){
         this.batteryStatus.onChange().subscribe(status=> {
           this.stat = status;
