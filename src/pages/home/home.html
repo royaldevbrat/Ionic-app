@@ -5,13 +5,23 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
-
 <ion-content padding>
-  <button ion-button full (click)="startvibration()">vibration</button>
- <button *ngIf="backlightStatus===false" ion-button block (click)="on()">flashlight ON</button>
- <button *ngIf="backlightStatus===true" ion-button block (click)="off()">flashlight OFF</button>
- <button ion-button full (click)="cameraon()">camera</button>
- <button ion-button block (click)="choose()">uploadfile</button>
+    Please select one service:
+    <select (change)="vibrate($event)">
+        <option value="" disabled>select</option>
+      <option value="startvibration">vibration</option>
+      <option value="takephoto">Take Photo</option>
+      <option value="upload">uploadfile</option>
+      <!-- <option value="fingerprint">fingerprint</option> -->
+        </select>
+ <h3>Batterylevel</h3>
+ <p>{{stat?.level}}</p>
+ 
+ <ion-fab bottom center>
+  <button ion-fab color="{{isOn ? 'secondary':'light'}}" (click)="toggleFlash()">
+  </button>
+  </ion-fab>
+
  <button ion-button block (click)="fingerprintdialoge()">fingerprint</button>
   <div>
  <ion-input style="background-color: gray"  placeholder="text to encode" type="text" [(ngModel)]="encodText"></ion-input>
@@ -24,6 +34,17 @@
 <br>
 <span>{{scannedData.text}}</span></div>
 </div>
+<ion-list>
+
+  <ion-item>
+      <ion-label floating>Destination</ion-label>
+      <ion-input type="text" [(ngModel)]="Destination"></ion-input>
+  </ion-item>
+</ion-list>
+<button ion-button full (click)="calculateAndDisplayRoute();showDiv() ">Get Direction</button>
+<div id="map"  style="display:none;"></div>
+<button ion-button full (click)="initialize();hideDiv() ">Plot location</button>
+<div id="map_canvas"  style="display:none;"></div>
 <ion-item>
   <ion-label floating>Phone Number</ion-label>
   <ion-input type="tel"  [(ngModel)]="phoneNumber"></ion-input>
@@ -33,18 +54,22 @@
    <ion-icon name="call"></ion-icon>
    </button>
    </ion-fab>
-   <ion-list>
-   <button ion-button block (click)="search(q)">contacts</button>
-   <ion-item *ngFor="let contact of contactsFound">
-     <ion-avatar item-start>
-       <ion-icon name="person"></ion-icon>
-     </ion-avatar>
-     <h2>{{contact.displayName}}</h2>
-     <p *ngFor="let num of contact.phoneNumbers">
-       {{num.value}}
-     </p>
+   <ion-item>
+   <p>Lat:{{lat}}</p>
+   <p>Lng:{{lng}}</p>
+   </ion-item>
+  
+   <button ion-button full (click)="saveLocation()">share location</button>
+  
+   <button ion-button full (click)="getContacts();toggle()">{{buttonName}}</button>
+   <ion-list *ngIf="show">
+    
+     <ion-item *ngFor="let contact of contactList">
+       <ion-avatar *ngIf="contact.image" item-start>
+         <img [src]="contact.image">
+       </ion-avatar>
+       {{contact.name}}
+       <p>{{contact.number}}</p>
      </ion-item>
-     </ion-list>
-     <h3>Batterylevel</h3>
- <p>{{stat?.level}}</p>
-</ion-content>
+   </ion-list>
+ </ion-content>
